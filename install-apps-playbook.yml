@@ -1,0 +1,28 @@
+---
+- name: Install Applications 
+  hosts: vm
+  remote_user: ubuntu
+  become: yes
+  
+  tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+    - name: Check for Python
+      raw: test -e /usr/bin/python3
+      changed_when: false
+      failed_when: false
+      register: check_python
+    - name: Install Python3
+      apt:
+        name: python3.8
+        state: present
+    - name: Install Java 11   
+      apt:
+        name: openjdk-11-jdk
+        state: present
+    - name: Install Jenkins  
+      apt:
+        name: Jenkins
+        state: present
